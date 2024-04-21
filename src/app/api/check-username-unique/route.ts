@@ -15,6 +15,20 @@ export async function GET(request: Request){
         username: searchParams.get('username')
 
       }
+    //   Validate with zod
+     const result = UsernameQuerySchema.safeParse(queryParam)
+     console.log(result,'result of validation');
+
+     if(!result.success){
+        const usernameErrors = result.error.format().username?._errors || []
+        return Response.json({
+            success: false,
+            message: usernameErrors?.length > 0 ? usernameErrors.join(', ') : 'Invalid query parameters',
+        },
+        {
+            status:400
+        })
+     }
 
 
     }
