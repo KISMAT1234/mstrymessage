@@ -21,9 +21,9 @@ const page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const debouncedUsername = useDebounceValue(username, 500)
   const { toast } = useToast()
-
+  
   const router = useRouter()
- 
+  
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -55,7 +55,38 @@ const page = () => {
   },[debouncedUsername])
 
 
-  
+  const onSubmit = async(data: z.infer<typeof signUpSchema>) => {
+    setIsSubmitting(true)
+    try{
+      const response = await axios.post<ApiResponse>('/api/sign-up', data)
+      toast({
+        title: 'Success',
+        description: response.data.message
+        // status:'success',
+        // duration: 5000,
+        // isClosable: true,
+        // position: 'top-right'
+      })
+      router.replace(`/verify/${username}`)
+      setIsSubmitting(false)
+    }catch(error){
+      console.error("Error in signup of user",error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      let errorMessage = axiosError.response?.data.message
+      toast({
+        title: 'Signup Failed',
+        description: errorMessage,
+        variant:"destructive"
+      })
+      setIsSubmitting(false)
+
+
+      
+    }
+
+    console.log(data,'data of submit');
+  }
+
 
   return (
     <div>
