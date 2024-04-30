@@ -33,7 +33,29 @@ const page = () => {
     }
   })
 
+  useEffect(()=>{
+    const checkUsernameUnique = async () => {
+      if(debouncedUsername){
+        setIsCheckingUsername(true)
+        setUsernameMessage('')
+        try{
+          const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`)
+          setUsernameMessage(response.data.message);
+        }catch(error){
+          const axiosError = error as AxiosError<ApiResponse>;
+          setUsernameMessage(
+            axiosError.response?.data.message ?? "Error checking username"
+          ) 
+        } finally {
+          setIsCheckingUsername(false)
+        }
+      }
+    }
+    checkUsernameUnique()
+  },[debouncedUsername])
 
+
+  
 
   return (
     <div>
