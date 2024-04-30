@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -9,6 +9,9 @@ import { useState } from "react"
 import { useDebounceValue } from 'usehooks-ts'
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/router"
+import { signUpSchema } from "@/schemas/signupSchema"
+import axios, {AxiosError} from 'axios'
+import { ApiResponse } from "@/types/ApiResponse"
 
 
 const page = () => {
@@ -21,6 +24,16 @@ const page = () => {
 
   const router = useRouter()
  
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      username: '',
+      email:'',
+      password:''
+    }
+  })
+
+
 
   return (
     <div>
