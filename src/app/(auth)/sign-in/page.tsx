@@ -12,6 +12,18 @@ import { useRouter } from "next/router"
 import { signUpSchema } from "@/schemas/signupSchema"
 import axios, {AxiosError} from 'axios'
 import { ApiResponse } from "@/types/ApiResponse"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 
 
 const page = () => {
@@ -89,10 +101,87 @@ const page = () => {
 
 
   return (
-    <div>
-      Page
-    </div>
+    <>
+       <div className="">
+          <Form {...form}>
+             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+             <FormField
+               control={form.control}
+               name="username"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel>Username</FormLabel>
+                   <FormControl>
+                     <Input placeholder="username"
+                      {...field} 
+                      onChange={(e)=>{
+                        field.onChange(e)
+                        setUsername(e.target.value)
+                      }}/>
+                   </FormControl>
+                
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+            
+            <FormField
+               control={form.control}
+               name="email"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel>Email</FormLabel>
+                   <FormControl>
+                     <Input placeholder="email"
+                      {...field} 
+                     />
+                   </FormControl>
+                
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+
+              <FormField
+               control={form.control}
+               name="password"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel>Password</FormLabel>
+                   <FormControl>
+                     <Input placeholder="password"
+                      {...field} 
+                     />
+                   </FormControl>
+                
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
+
+             <Button type="submit" disabled={isSubmitting}>
+               {
+                isSubmitting ? (
+                  <>
+                   <Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please wait
+                  </>
+                ) : ('signup')
+               }
+             </Button>
+             <div>
+               <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+                 Sign in 
+               </Link>
+             </div>
+             </form>
+          </Form>
+       </div>
+    </>
   )
 }
 
 export default page
+
+
+
