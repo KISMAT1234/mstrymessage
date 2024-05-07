@@ -6,7 +6,7 @@ import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios, { AxiosError } from 'axios'
 import { useSession } from 'next-auth/react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const page = () => {
@@ -46,7 +46,7 @@ const page = () => {
     }
   },[])
 
-  const fetchMessages = useCallback(async (refresh: boolean)=>{
+  const fetchMessages = useCallback( async (refresh: boolean)=>{
     setIsLoading(true)
     setIsSwitchLoading(false)
     try{
@@ -73,6 +73,14 @@ const page = () => {
       setIsSwitchLoading(false)
     }
   },[setIsLoading, setMessages]);
+
+
+   useEffect(()=> {
+    if(!session || !session.user) return
+    fetchMessages()
+    fetchAcceptMessage()
+   },[session, setValue, fetchAcceptMessage, fetchMessages]);
+
 
 
 
