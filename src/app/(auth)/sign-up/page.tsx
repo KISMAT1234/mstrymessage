@@ -94,8 +94,6 @@ const page = () => {
         variant:"destructive"
       })
       setIsSubmitting(false)
-
-
       
     }
 
