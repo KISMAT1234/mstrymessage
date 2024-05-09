@@ -22,7 +22,28 @@ export async function DELETE(request: Request, {params}: {params: {messageid: st
 
     }
     try{
-
+       const updateResult = await UserModel.updateOne({
+        _id: user._id
+       },
+       {
+        $pull:{messages:{_id: messageId}}
+       }) 
+       if(updateResult.modifiedCount == 0){
+        return Response.json({
+            success: false,
+            message: "Message not found or already deleted"
+        },
+        {
+            status: 404
+        })
+       }
+       return Response.json({
+        success: true,
+        message: "Message deleted"
+       },
+       {
+        status: 200
+       })
     }catch(error){
         console.log("Error in delete message route",error)
       return Response.json({
