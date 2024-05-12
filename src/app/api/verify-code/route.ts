@@ -7,9 +7,11 @@ import { usernameValidation } from "@/schemas/signupSchema";
 export async function POST(request: Request){
     await dbConnect()
     try{
-       const {username, code} = await request.json();
+       const {username, code} = await request.json();  
+       console.log(username, code);
 
        const decodedUsername = decodeURIComponent(username)
+       console.log(decodedUsername,'decoding username')
 
        const user = await UserModel.findOne({username: decodedUsername})
 
