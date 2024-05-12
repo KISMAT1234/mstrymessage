@@ -6,6 +6,7 @@ import { usernameValidation } from "@/schemas/signupSchema";
 const UsernameQuerySchema = z.object({
     username: usernameValidation
 })
+console.log(UsernameQuerySchema,'username validation')  //validating username using zod
 
 export async function GET(request: Request){
     // if(request.method !== 'GET'){
@@ -15,16 +16,19 @@ export async function GET(request: Request){
     //     },
     //     {status: 405})
     // }
-
+    // localhost:3000/api/check?username=elon
     await dbConnect()
     try{
-      const {searchParams} = new URL(request.url)
+      const {searchParams} = new URL(request.url)  // Getting query parameters from url to check username
+      console.log(searchParams,'getting uername query')
       const queryParam = {
-        username: searchParams.get('username')
+        username: searchParams.get('username')  
 
       }
+      console.log(searchParams,'')
+
     //   Validate with zod
-     const result = UsernameQuerySchema.safeParse(queryParam)
+     const result = UsernameQuerySchema.safeParse(queryParam) //safeParse checks if queryParam meets the criteria specified in UsernameQuerySchema.
      console.log(result,'result of validation');
 
      if(!result.success){
