@@ -6,30 +6,23 @@ import { usernameValidation } from "@/schemas/signupSchema";
 const UsernameQuerySchema = z.object({
     username: usernameValidation
 })
-console.log(UsernameQuerySchema,'username validation')  //validating username using zod
+// console.log(UsernameQuerySchema,'username validation')  //validating username using zod
 
 export async function GET(request: Request){
-    // if(request.method !== 'GET'){
-    //     return Response.json({
-    //         success: false,
-    //         message:'Method not allowed',
-    //     },
-    //     {status: 405})
-    // }
-    // localhost:3000/api/check?username=elon
+    // localhost:3000/api/check?username=elonMusk
     await dbConnect()
     try{
       const {searchParams} = new URL(request.url)  // Getting query parameters from url to check username
-      console.log(searchParams,'getting uername query')
+      console.log(searchParams,'getting uername query') // output = { 'username' => 'kismat' }
       const queryParam = {
         username: searchParams.get('username')  
 
       }
-      console.log(searchParams,'')
+      console.log(queryParam,' query param') // output = { username: 'kismat' }
 
     //   Validate with zod
      const result = UsernameQuerySchema.safeParse(queryParam) //safeParse checks if queryParam meets the criteria specified in UsernameQuerySchema.
-     console.log(result,'result of validation');
+     console.log(result,'result of validation');  //output = { success: true, data: { username: 'kismat' } }
 
      if(!result.success){
         const usernameErrors = result.error.format().username?._errors || []
@@ -43,8 +36,10 @@ export async function GET(request: Request){
      }
 
      const {username} = result.data
+     console.log(username,'username value');  // output = kismat
 
-     const existingVerifiedUser = await UserModel.findOne({ username, isVerified: true})
+     const existingVerifiedUser = await UserModel.findOne({username, isVerified: true})
+     console.log( existingVerifiedUser,'user checking' )
 
      if(existingVerifiedUser){
         return Response.json({
