@@ -13,16 +13,16 @@ export async function GET(request: Request){
     await dbConnect()
     try{
       const {searchParams} = new URL(request.url)  // Getting query parameters from url to check username
-      console.log(searchParams,'getting uername query') // output = { 'username' => 'kismat' }
+    //   console.log(searchParams,'getting uername query') // output = { 'username' => 'kismat' }
       const queryParam = {
         username: searchParams.get('username')  
 
       }
-      console.log(queryParam,' query param') // output = { username: 'kismat' }
+    //   console.log(queryParam,' query param') // output = { username: 'kismat' }
 
     //   Validate with zod
      const result = UsernameQuerySchema.safeParse(queryParam) //safeParse checks if queryParam meets the criteria specified in UsernameQuerySchema.
-     console.log(result,'result of validation');  //output = { success: true, data: { username: 'kismat' } }
+    //  console.log(result,'result of validation');  //output = { success: true, data: { username: 'kismat' } }
 
      if(!result.success){
         const usernameErrors = result.error.format().username?._errors || []
@@ -36,10 +36,10 @@ export async function GET(request: Request){
      }
 
      const {username} = result.data
-     console.log(username,'username value');  // output = kismat
+    //  console.log(username,'username value');  // output = kismat
 
      const existingVerifiedUser = await UserModel.findOne({username, isVerified: true})
-     console.log( existingVerifiedUser,'user checking' )
+    //  console.log( existingVerifiedUser,'user checking' )
 
      if(existingVerifiedUser){
         return Response.json({
