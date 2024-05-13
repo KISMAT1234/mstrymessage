@@ -8,27 +8,30 @@ export async function POST(request: Request){
     await dbConnect()
     try{
        const {username, code} = await request.json();  
-       console.log(username, code);
+      //  console.log(username, code);
 
-       const decodedUsername = decodeURIComponent(username)
-       console.log(decodedUsername,'decoding username')
+       const decodedUsername = decodeURIComponent(username)  //Decodes a Uniform Resource Identifier (URI) component previously created by encodeURIComponent or by a similar routine
+      //  console.log(decodedUsername,'decoding username')
 
        const user = await UserModel.findOne({username: decodedUsername})
+      //  console.log(user,'user value')
 
        if(!user){
         return Response.json({success:false,message:"User not found"},
         {status:500})
        }
-       const isCodeValid = user.verifyCode == code 
-       const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
+       const isCodeValid = user.verifyCode == code // Checking the user code and verification code
+       const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date(); // Checking the expiry of code 
+      //  console.log(isCodeNotExpired,'expiry checking')
 
        if(isCodeValid && isCodeNotExpired){
-              user.isVerified = true;
-              await user.save();
-              return Response.json({
-                success:true,
-                message:"Account verified successfuly"},
-              {status:200})
+          user.isVerified = true;
+          await user.save();
+
+          return Response.json({
+            success:true,
+            message:"Account verified successfuly"},
+          {status:200})
        } else if(!isCodeNotExpired){
           return Response.json({success:false,message:"Code has expired"},
           {status:400})
