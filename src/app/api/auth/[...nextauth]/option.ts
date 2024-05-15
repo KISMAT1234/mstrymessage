@@ -7,14 +7,15 @@ import UserModel from "@/model/User";
 
 export const authOptions: NextAuthOptions = {
     providers:[
-        CredentialsProvider({
+        CredentialsProvider({  //The Credentials provider allows you to handle signing in with arbitrary credentials, such as a username and password, domain, or two factor authentication or hardware device (e.g. YubiKey U2F / FIDO).
             id: "Credentials",
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "text"},
                 password: { label: "Password", type: "password" }
               },
-              async authorize(credentials:any):Promise<any>{
+
+              async authorize(credentials:any):Promise<any>{  //It checks if the user exists and if their password is correct using bcrypt for password comparison.
                 await dbConnect()
                 try{
                   const user =  await UserModel.findOne({
@@ -48,7 +49,7 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     callbacks:{
-      async jwt({ token, user}) {
+      async jwt({ token, user}) {  // jwt callback modifies the JSON Web Token (JWT) to include user-specific data like user ID, verification status, messaging preferences, and username.
         if(user){
          token._id = user._id?.toString()
          token.isVerified = user.isVerified
@@ -57,22 +58,23 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-      async session({ session,token }) {
+      async session({ session,token }) {  //session callback updates the session object with user data from the JWT token.
         if(token){
           session.user._id = token._id
           session.user.isVerified = token.isVerified
           session.user.isAcceptingMessages = token.isAcceptingMessages
           session.user.username = token.username
         }
-        return session
+        return session;
       },
     },
-    pages:{
-      signIn: '/sign-in'
-    },
+ 
     session:{
       strategy:"jwt"
     },
     secret:process.env.NEXTAUTH_SECRET,
+    pages:{
+      signIn: '/sign-in'
+    },
 
 }
