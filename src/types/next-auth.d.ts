@@ -1,6 +1,6 @@
 import 'next-auth'
 
-declare module 'next-auth'{
+declare module 'next-auth'{  // This declares a module augmentation for the NextAuth module. It means you're adding or modifying types for NextAuth.
     interface User{
         _id?: string;
         isVerified?: boolean;
