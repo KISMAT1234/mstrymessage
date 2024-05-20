@@ -13,6 +13,7 @@ export  async function POST(req: Request) {
     const existingUserVerifiedByUsername = await UserModel.findOne({ username, isVerified: true });
     // console.log(existingUserVerifiedByUsername,'username' )
 
+    
     if (existingUserVerifiedByUsername) {
       return Response.json(
         { success: false, message: "Username is already taken" },
