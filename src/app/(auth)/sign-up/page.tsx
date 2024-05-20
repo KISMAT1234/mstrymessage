@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
 import { useState } from "react"
-import { useDebounceValue } from 'usehooks-ts'
+import { useDebounceValue,useDebounceCallback } from 'usehooks-ts'
 import { useToast } from "@/components/ui/use-toast"
 import { signUpSchema } from "@/schemas/signupSchema"
 import axios, {AxiosError} from 'axios'
@@ -31,7 +31,7 @@ const page = () => {
   const [usernameMessage, setUsernameMessage] = useState('')
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debouncedUsername = useDebounceValue(username, 500)
+  const debounced = useDebounceCallback(setUsername, 500)   // A debounced value is a technique used to delay the execution of a function until a certain amount of time has passed after the user stops interacting with an input field. This is often used to prevent excessive function calls when a user types quickly into an input field.
   const { toast } = useToast()
   
   
@@ -47,11 +47,11 @@ const page = () => {
 
   useEffect(()=>{
     const checkUsernameUnique = async () => {
-      if(debouncedUsername){
+      if(debounced){
         setIsCheckingUsername(true)
         setUsernameMessage('')
         try{
-          const response = await axios.get(`/api/check-username-unique?username=${debouncedUsername}`)
+          const response = await axios.get(`/api/check-username-unique?username=${debounced}`)
           setUsernameMessage(response.data.message);
         }catch(error){
           const axiosError = error as AxiosError<ApiResponse>;
@@ -64,7 +64,7 @@ const page = () => {
       }
     }
     checkUsernameUnique()
-  },[debouncedUsername])
+  },[debounced])
 
 
   const onSubmit = async(data: z.infer<typeof signUpSchema>) => {
@@ -120,10 +120,11 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <Input
+                    placeholder="username"
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
-                      setUsername(e.target.value);
+                      debounced(e.target.value);
                     }}
                   />
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
