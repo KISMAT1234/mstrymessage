@@ -47,7 +47,7 @@ const page = () => {
 
   useEffect(()=>{
     const checkUsernameUnique = async () => {
-      if(debounced){
+      if(username){
         setIsCheckingUsername(true)
         setUsernameMessage('')
         try{
@@ -127,10 +127,10 @@ const page = () => {
                       debounced(e.target.value);
                     }}
                   />
-                  {isCheckingUsername && <Loader2 className="animate-spin" />}
+                  {isCheckingUsername && <Loader2 className="animate-spin" />} 
                   {!isCheckingUsername && usernameMessage && (
                     <p
-                      className={`text-sm ${
+                      className={`text-sm ${   //showing message in different color
                         usernameMessage === 'Username is unique'
                           ? 'text-green-500'
                           : 'text-red-500'
