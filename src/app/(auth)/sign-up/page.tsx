@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import Link from "next/link"
 import { useState } from "react"
-import { useDebounceValue,useDebounceCallback } from 'usehooks-ts'
+import { useDebounceValue, useDebounceCallback } from 'usehooks-ts'
 import { useToast } from "@/components/ui/use-toast"
 import { signUpSchema } from "@/schemas/signupSchema"
 import axios, {AxiosError} from 'axios'
@@ -31,9 +31,10 @@ const page = () => {
   const [usernameMessage, setUsernameMessage] = useState('')
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debounced = useDebounceCallback(setUsername, 500)   // A debounced value is a technique used to delay the execution of a function until a certain amount of time has passed after the user stops interacting with an input field. This is often used to prevent excessive function calls when a user types quickly into an input field.
   const { toast } = useToast()
-  
+  const debouncedUsername = useDebounceCallback(setUsername, 500)   // A debounced value is a technique used to delay the execution of a function until a certain amount of time has passed after the user stops interacting with an input field. This is often used to prevent excessive function calls when a user types quickly into an input field.
+  console.log(username,'value of deb upper')
+   
   
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -51,7 +52,8 @@ const page = () => {
         setIsCheckingUsername(true)
         setUsernameMessage('')
         try{
-          const response = await axios.get(`/api/check-username-unique?username=${debounced}`)
+          console.log(debouncedUsername,'value of deb')
+          const response = await axios.get(`/api/check-username-unique?username=${username}`)
           setUsernameMessage(response.data.message);
         }catch(error){
           const axiosError = error as AxiosError<ApiResponse>;
@@ -64,7 +66,7 @@ const page = () => {
       }
     }
     checkUsernameUnique()
-  },[debounced])
+  },[username])
 
 
   const onSubmit = async(data: z.infer<typeof signUpSchema>) => {
@@ -124,7 +126,7 @@ const page = () => {
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
-                      debounced(e.target.value);
+                      debouncedUsername(e.target.value);
                     }}
                   />
                   {isCheckingUsername && <Loader2 className="animate-spin" />} 
