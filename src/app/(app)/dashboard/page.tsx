@@ -21,6 +21,7 @@ const page = () => {
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const {toast} = useToast()
 
+  // to delete messages
   const handleDeleteMessage = (messageId: string) => {
        setMessages(messages.filter((message)=> message._id !== messageId))
   } 
@@ -52,6 +53,7 @@ const page = () => {
     }
   },[])
 
+  // Getting messages from backend to show in frontend
   const fetchMessages = useCallback( async (refresh: boolean = false)=>{
     setIsLoading(true)
     setIsSwitchLoading(false)
@@ -88,8 +90,8 @@ const page = () => {
    },[session, setValue, fetchAcceptMessage, fetchMessages]);
 
 
-   const handleSwitchChange = async ()=> {
-     try{
+  const handleSwitchChange = async ()=> {
+    try{
       const response = await axios.post<ApiResponse>('/api/accept-messages',{
         acceptMessages: !acceptMessages,
       })
@@ -98,16 +100,16 @@ const page = () => {
         title: response.data.message,
         variant: "default"
       })
-     }
-     catch(error){
+    }
+    catch(error){
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title:"Error",
         description: axiosError.response?.data.message || "Failed to fetch messages settings",
         variant: "destructive"
       })
-     }
-   }
+    }
+  }
 
   const {username} = session?.user as User
   const baseUrl = `${window.location.protocol}//${window.location.host}`
@@ -121,11 +123,11 @@ const page = () => {
     })
   }
 
-   if(!session || !session.user){
-    return( <div>
-      <h1>Please Login</h1>
-    </div>
-   )}
+  if(!session || !session.user){
+   return( <div>
+     <h1>Please Login</h1>
+   </div>
+  )}
 
 
 
