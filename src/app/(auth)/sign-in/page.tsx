@@ -33,12 +33,13 @@ export default function SignInForm() {
 
   
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    console.log(data, 'siginin data')
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
-
+    console.log(result,'result of signin data')
     if (result?.error) {
       if (result.error === 'CredentialsSignin') {
         toast({
@@ -108,3 +109,4 @@ export default function SignInForm() {
     </div>
   );
 }
+
