@@ -8,7 +8,7 @@ import UserModel from "@/model/User";
 export const authOptions: NextAuthOptions = {
     providers:[
         CredentialsProvider({  //The Credentials provider allows you to handle signing in with arbitrary credentials, such as a username and password, domain, or two factor authentication or hardware device (e.g. YubiKey U2F / FIDO).
-            id: "Credentials",
+            id: "credentials",
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "text"},
