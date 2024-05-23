@@ -34,7 +34,7 @@ export default function SignInForm() {
   
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     console.log(data, 'siginin data')
-    const result = await signIn('credentials', {
+    const result = await signIn('credentials', {  // This function sends the user’s credentials to the NextAuth.js backend to be authenticated.
       redirect: false,
       identifier: data.identifier,
       password: data.password,
