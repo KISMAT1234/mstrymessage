@@ -36,7 +36,8 @@ const page = () => {
 
   const acceptMessages = watch('acceptMessages')   //This part of the code is using the watch function from React Hook Form. It's watching the input field named 'acceptMessages' in your form.
 
-  const fetchAcceptMessage = useCallback(async () => {
+
+  const fetchAcceptMessage = useCallback(async () => { //useCallback is a React Hook that allows you to memoize a function. It returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
     setIsSwitchLoading(true)
     try{
       const response = await axios.get('/api/accept-messages')
