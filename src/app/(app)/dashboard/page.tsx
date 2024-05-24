@@ -32,8 +32,10 @@ const page = () => {
   const form = useForm({ // useForm hook from react-hook-form creates a form object named form.
     resolver: zodResolver(AcceptMessageSchema) // zodResolver function (likely from @hookform/resolvers/zod) integrates form validation with Zod library
   })
+  // console.log(form,'form after zod resolver')
 
-  const {register,watch, setValue} = form
+  const {register,watch, setValue} = form  // Destructures functions from form: register, watch, setValue for registering form fields, watching field values, and setting field values programmatically.
+  // console.log(form,'form after destructure');
 
   const acceptMessages = watch('acceptMessages')   //This part of the code is using the watch function from React Hook Form. It's watching the input field named 'acceptMessages' in your form.
 
@@ -62,7 +64,7 @@ const page = () => {
   //   try{
   //    const response =  await axios.get<ApiResponse>('/api/get-messages')
   //    setMessages(response.data.messages || [])
-  //    if(refresh){
+  //    if(refresh){ //Optionally displays a toast notification if refresh is true.
   //     toast({
   //       title:"Refresh Messages",
   //       description:"Showing latest messages",
