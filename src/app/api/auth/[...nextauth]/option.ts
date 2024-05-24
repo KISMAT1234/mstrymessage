@@ -18,14 +18,14 @@ export const authOptions: NextAuthOptions = {
               async authorize(credentials:any):Promise<any>{  //It checks if the user exists and if their password is correct using bcrypt for password comparison.
                 await dbConnect()
                 try{
-                  console.log(credentials,'credentials of email and password')
+                  // console.log(credentials,'credentials of email and password')
                   const user =  await UserModel.findOne({
                      $or:[
                         {email: credentials.identifier},
                         {username: credentials.identifier}
                      ]
                    })
-                   console.log(user,'userdata in authorize')
+                  //  console.log(user,'userdata in authorize')
                    
                    if(!user){
                     throw new Error('No user found with this email')
