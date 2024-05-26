@@ -7,7 +7,7 @@ import { AcceptMessageSchema } from '@/schemas/acceptMessageSchema'
 import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-separator'
-import { Switch } from '@radix-ui/react-switch'
+import { Switch } from "@/components/ui/switch"
 import axios, { AxiosError } from 'axios'
 import { Loader2, RefreshCcw } from 'lucide-react'
 import { User } from 'next-auth'
@@ -22,9 +22,9 @@ const page = () => {
   const {toast} = useToast()
 
   // // to delete messages
-  // const handleDeleteMessage = (messageId: string) => {
-  //      setMessages(messages.filter((message)=> message._id !== messageId))
-  // } 
+  const handleDeleteMessage = (messageId: string) => {
+       setMessages(messages.filter((message)=> message._id !== messageId))
+  } 
 
   const {data: session} = useSession();
   console.log(session,'data session')
@@ -40,58 +40,58 @@ const page = () => {
   const acceptMessages = watch('acceptMessages')   //This part of the code is using the watch function from React Hook Form. It's watching the input field named 'acceptMessages' in your form.
 
 
-  // const fetchAcceptMessage = useCallback(async () => { //useCallback is a React Hook that allows you to memoize a function. It returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
-  //   setIsSwitchLoading(true)
-  //   try{
-  //     const response = await axios.get('/api/accept-messages')
-  //     setValue('acceptMessages', response.data.isAcceptingMessage)
-  //   }catch(error){
-  //     const axiosError = error as AxiosError<ApiResponse>;
-  //     toast({
-  //       title:"Error",
-  //       description: axiosError.response?.data.message || "Failed to fetch message settings",
-  //       variant: "destructive"
-  //     })
-  //   } finally {
-  //     setIsSwitchLoading(false)
-  //   }
-  // },[])
+  const fetchAcceptMessage = useCallback(async () => { //useCallback is a React Hook that allows you to memoize a function. It returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
+    setIsSwitchLoading(true)
+    try{
+      const response = await axios.get('/api/accept-messages')
+      setValue('acceptMessages', response.data.isAcceptingMessage)
+    }catch(error){
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title:"Error",
+        description: axiosError.response?.data.message || "Failed to fetch message settings",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSwitchLoading(false)
+    }
+  },[])
 
-  // // Getting messages from backend to show in frontend
-  // const fetchMessages = useCallback( async (refresh: boolean = false)=>{
-  //   setIsLoading(true)
-  //   setIsSwitchLoading(false)
-  //   try{
-  //    const response =  await axios.get<ApiResponse>('/api/get-messages')
-  //    setMessages(response.data.messages || [])
-  //    if(refresh){ //Optionally displays a toast notification if refresh is true.
-  //     toast({
-  //       title:"Refresh Messages",
-  //       description:"Showing latest messages",
-  //       variant: "destructive"
-  //     })
-  //    }
-  //   }
-  //   catch(error){
-  //     const axiosError = error as AxiosError<ApiResponse>;
-  //     toast({
-  //       title:"Error",
-  //       description: axiosError.response?.data.message || "Failed to fetch messages",
-  //       variant: "destructive"
-  //     })
-  //   }
-  //   finally {
-  //     setIsLoading(false)
-  //     setIsSwitchLoading(false)
-  //   }
-  // },[setIsLoading, setMessages]);
+  // Getting messages from backend to show in frontend
+  const fetchMessages = useCallback( async (refresh: boolean = false)=>{
+    setIsLoading(true)
+    setIsSwitchLoading(false)
+    try{
+     const response =  await axios.get<ApiResponse>('/api/get-messages')
+     setMessages(response.data.messages || [])
+     if(refresh){ //Optionally displays a toast notification if refresh is true.
+      toast({
+        title:"Refresh Messages",
+        description:"Showing latest messages",
+        variant: "destructive"
+      })
+     }
+    }
+    catch(error){
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title:"Error",
+        description: axiosError.response?.data.message || "Failed to fetch messages",
+        variant: "destructive"
+      })
+    }
+    finally {
+      setIsLoading(false)
+      setIsSwitchLoading(false)
+    }
+  },[setIsLoading, setMessages]);
 
 
-  //  useEffect(()=> {
-  //   if(!session || !session.user) return
-  //   fetchMessages()
-  //   fetchAcceptMessage()
-  //  },[session, setValue, fetchAcceptMessage, fetchMessages]);
+   useEffect(()=> {
+    if(!session || !session.user) return
+    fetchMessages()
+    fetchAcceptMessage()
+   },[session, setValue, fetchAcceptMessage, fetchMessages]);
 
 
   const handleSwitchChange = async ()=> {
@@ -127,11 +127,11 @@ const page = () => {
   //   })
   // }
 
-  // if(!session || !session.user){
-  //  return( <div>
-  //    <h1>Please Login</h1>
-  //  </div>
-  // )}
+  if(!session || !session.user){
+   return( <div>
+     <h1>Please Login</h1>
+   </div>
+  )}
 
 
 
@@ -164,8 +164,8 @@ const page = () => {
             Accept Messages: {acceptMessages ? 'On' : 'Off'}
           </span>
         </div>
-      {/* <Separator /> */}
-      {/* <Button className="mt-4" variant="outline"
+      <Separator />
+      <Button className="mt-4" variant="outline"
           onClick={(e) => {
             e.preventDefault();
             fetchMessages(true);
@@ -176,9 +176,9 @@ const page = () => {
         ) : (
           <RefreshCcw className="h-4 w-4" />
         )}
-      </Button> */}
+      </Button>
 
-        {/*<div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (
             messages.map((message, index) => (
               <MessageCard
@@ -190,7 +190,7 @@ const page = () => {
           ) : (
             <p>No messages to display.</p>
           )}
-        </div> */}
+        </div>
       </div>
     </>
   )
