@@ -23,6 +23,7 @@ export async function POST(request: Request){  // Accepting messages
     const userId = user._id
     console.log(userId,"user id")
     const {acceptMessages} = await request.json()
+  
     try{
         const updatedUser = await UserModel.findByIdAndUpdate(
            userId,
@@ -49,7 +50,6 @@ export async function POST(request: Request){  // Accepting messages
         }
     }
     catch(error){
-        console.log(" message",error)
         console.error('Error registering user', error);
         return Response.json(
           {
@@ -63,10 +63,31 @@ export async function POST(request: Request){  // Accepting messages
 
 export async function GET(request: Request){
     await dbConnect()
+    const session = await getServerSession(authOptions)
+    console.log(session,"session ")
+    const user: User = session?.user
+        
+    if(!session || !session.user){
+        return Response.json(
+            {
+                success: false,
+                message: "Not Authenticated"
+            },
+            {status: 401}
+        )
+    }
+
     try{
 
     }
     catch(error){
-        console.log("Error adding message",error)
+        console.error('Error registering user', error);
+        return Response.json(
+          {
+            success: false,
+            message: 'Error accepting messages',
+          },
+          { status: 500 }
+        );
     }
 }
