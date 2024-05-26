@@ -77,8 +77,28 @@ export async function GET(request: Request){
         )
     }
 
-    try{
 
+    try{
+        const userId = user._id
+        const foundUser = await UserModel.findById(userId)
+        if(!foundUser){
+            return Response.json(
+                {
+                    success: false,
+                    message: "User not found"
+                },
+                {status: 401}
+            )
+        }else{
+            return Response.json(
+                {
+                    success: true,
+                    message: "User found successfully",
+                    isAcceptingMessages: foundUser.isAcceptingMessage
+                },
+                {status: 200}
+            )   
+        }
     }
     catch(error){
         console.error('Error registering user', error);
