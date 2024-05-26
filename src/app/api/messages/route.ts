@@ -21,7 +21,10 @@ export async function POST(request: Request){  // Accepting messages
             )
         }
 
-
+        const userId = user._id
+        console.log(userId,"user id")
+        const {acceptMessages} = await request.json()
+  
 }
 
 export async function GET(request: Request){
