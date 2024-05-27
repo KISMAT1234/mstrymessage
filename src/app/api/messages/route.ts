@@ -3,7 +3,7 @@ import UserModel from '@/model/User';
 import mongoose from 'mongoose';
 import { User } from 'next-auth';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]/options';
+import { authOptions } from '../auth/[...nextauth]/option';
 
 export async function GET(request: Request){
     await dbConnect()
@@ -12,7 +12,10 @@ export async function GET(request: Request){
 
     if (!session || !_user) {
         return Response.json(
-          { success: false, message: 'Not authenticated' },
+          { 
+            success: false, 
+           message: 'Not authenticated' 
+          },
           { status: 401 }
         );
     }
@@ -32,13 +35,41 @@ export async function GET(request: Request){
                 $sort:{'messages.createdAt': -1}
             },
             {
-                $group:{_id:'$_id', messages: {$push:'$messages'}}
+                $group:{_id:'$_id', messages: {$push:'$messages'}}  //uses the $group operator to group documents by a specified field and performs an aggregation operation on those grouped documents. Let's break down the code:
             }
         ])
+
+        if(!user || user.length === 0){
+            return Response.json(
+                { 
+                  success: false, 
+                 message: 'User not found' 
+                },
+                { status: 401 }
+              );
+        }
+
+        return Response.json(
+            { 
+              success: true, 
+             messages: user[0].messages 
+            },
+            { status: 200 }
+          );
     }
     catch(error){
+        console.error('Error registering user', error);
+        return Response.json(
+          {
+            success: false,
+            message: 'Error accepting messages',
+          },
+          { status: 500 }
+        );
 
     }
+
+
 
 
 }
