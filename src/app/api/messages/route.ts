@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { User } from 'next-auth';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/option';
+import { Message } from '@/model/User';
 
 export async function GET(request: Request){
     await dbConnect()
@@ -68,10 +69,49 @@ export async function GET(request: Request){
         );
 
     }
-
-
-
-
 }
+
+export async function POST(request: Request){
+    await dbConnect()
+    const {username, content} = await request.json();
+    try{
+        const user = await UserModel.findOne({username})   
+        if(!user){
+          return Response.json(
+              { 
+                success: false, 
+               message: 'User not found' 
+              },
+              { status: 404 }
+            );
+        }
+  
+        if(!user.isAcceptingMessage){
+          return Response.json(
+              { 
+                success: true, 
+                messages: "User does not accept messages"
+              },
+              { status: 403 }
+          );
+        }
+
+    }
+    catch(error){
+        console.error('Error registering user', error);
+        return Response.json(
+          {
+            success: false,
+            message: 'Error accepting messages',
+          },
+          { status: 500 }
+        );
+
+    }
+    
+}
+
+
+
 
 
