@@ -27,7 +27,7 @@ export async function GET(request: Request){
     try{
         const user = await UserModel.aggregate([
             {
-                $match:{id: userId}
+                $match:{_id: userId}
             },
             {
                 $unwind: '$messages'
@@ -39,6 +39,7 @@ export async function GET(request: Request){
                 $group:{_id:'$_id', messages: {$push:'$messages'}}  //uses the $group operator to group documents by a specified field and performs an aggregation operation on those grouped documents. Let's break down the code:
             }
         ])
+        console.log(user,'user data')
 
         if(!user || user.length === 0){
             return Response.json(
@@ -74,6 +75,7 @@ export async function GET(request: Request){
 export async function POST(request: Request){
     await dbConnect()
     const {username, content} = await request.json();
+    console.log(username, content,"user message send")
     try{
         const user = await UserModel.findOne({username})   
         if(!user){
@@ -97,7 +99,9 @@ export async function POST(request: Request){
         }
 
         const newMessage = {content, createdAt: new Date()}
+        console.log(newMessage,'message new')
         user.messages.push(newMessage as Message);
+        await user.save();
 
         return Response.json(
             { 
