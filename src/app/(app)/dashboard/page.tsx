@@ -27,7 +27,7 @@ const page = () => {
   } 
 
   const {data: session} = useSession();
-  console.log(session,'data session')
+  // console.log(session,'data session')
 
   const form = useForm({ // useForm hook from react-hook-form creates a form object named form.
     resolver: zodResolver(AcceptMessageSchema) // zodResolver function (likely from @hookform/resolvers/zod) integrates form validation with Zod library
@@ -134,6 +134,7 @@ const page = () => {
    </div>
   )}
 
+  console.log(messages,'messages get')
 
 
   return (
