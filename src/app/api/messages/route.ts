@@ -22,7 +22,8 @@ export async function GET(request: Request){
     }
 
     const userId = new mongoose.Types.ObjectId(_user._id)  // This creates a new ObjectId instance using the _id property from the _user object. _user._id is assumed to be the unique identifier of a user document in MongoDB. By doing this, you ensure that userId is a proper ObjectId instance.
-    console.log(userId,"user id in mongoose types")
+    // console.log(userId,"user id in mongoose types")
+
 
     try{
         const user = await UserModel.aggregate([
@@ -39,7 +40,7 @@ export async function GET(request: Request){
                 $group:{_id:'$_id', messages: {$push:'$messages'}}  //uses the $group operator to group documents by a specified field and performs an aggregation operation on those grouped documents. Let's break down the code:
             }
         ])
-        console.log(user,'user data')
+        // console.log(user,'user data')
 
         if(!user || user.length === 0){
             return Response.json(
@@ -75,7 +76,7 @@ export async function GET(request: Request){
 export async function POST(request: Request){
     await dbConnect()
     const {username, content} = await request.json();
-    console.log(username, content,"user message send")
+    // console.log(username, content,"user message send")
     try{
         const user = await UserModel.findOne({username})   
         if(!user){
@@ -99,7 +100,7 @@ export async function POST(request: Request){
         }
 
         const newMessage = {content, createdAt: new Date()}
-        console.log(newMessage,'message new')
+        // console.log(newMessage,'message new')
         user.messages.push(newMessage as Message);
         await user.save();
 
@@ -124,6 +125,60 @@ export async function POST(request: Request){
 
     }
     
+}
+
+
+
+export async function DELETE(request: Request, {params}: {params: {messageid: string}}){
+    const messageId = params.messageid
+    
+    await dbConnect()
+    const session = await getServerSession(authOptions)
+    const user: User = session?.user as User
+    
+    if(!session || !session.user){
+        return Response.json({
+            success: false,
+            message: "Not Authenticated"
+        },
+        {
+            status: 401
+        })
+
+    }
+    try{
+       const updateResult = await UserModel.updateOne({
+        _id: user._id
+       },
+       {
+        $pull:{messages:{_id: messageId}} //The $pull operator is used to remove elements from an array that match a specified condition. Here's a breakdown of the code:
+       }) 
+       if(updateResult.modifiedCount == 0){
+        return Response.json({
+            success: false,
+            message: "Message not found or already deleted"
+        },
+        {
+            status: 404
+        })
+       }
+       return Response.json({
+        success: true,
+        message: "Message deleted"
+       },
+       {
+        status: 200
+       })
+    }catch(error){
+        console.log("Error in delete message route",error)
+      return Response.json({
+          success: false,
+          message: "Error deleting message"
+      },
+      {
+        status:500
+      })
+    }
 }
 
 
