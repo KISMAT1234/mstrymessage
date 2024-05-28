@@ -128,11 +128,11 @@ const page = () => {
   //   })
   // }
 
-  if(!session || !session.user){
-   return( <div>
-     <h1>Please Login</h1>
-   </div>
-  )}
+  // if(!session || !session.user){
+  //  return( <div>
+  //    <h1>Please Login</h1>
+  //  </div>
+  // )}
 
   console.log(messages,'messages get')
 
