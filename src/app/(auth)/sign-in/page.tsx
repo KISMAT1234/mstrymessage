@@ -17,8 +17,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default function SignInForm() {
+ 
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -34,12 +38,16 @@ export default function SignInForm() {
   
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     // console.log(data, 'siginin data')
+    setIsLoading(true);
     const result = await signIn('credentials', {  // This function sends the user’s credentials to the NextAuth.js backend to be authenticated.
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
     // console.log(result,'result of signin data')
+    
+    setIsLoading(false);
+    
     if (result?.error) {
       if (result.error === 'CredentialsSignin') {
         toast({
@@ -94,7 +102,8 @@ export default function SignInForm() {
                 </FormItem>
               )}
             />
-            <Button className='w-full' type="submit">Sign In</Button>
+            {/* <Button className='w-full' type="submit">Sign In</Button> */}
+      
           </form>
         </Form>
         <div className="text-center mt-4">
