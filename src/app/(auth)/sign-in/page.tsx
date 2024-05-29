@@ -103,7 +103,18 @@ export default function SignInForm() {
               )}
             />
             {/* <Button className='w-full' type="submit">Sign In</Button> */}
-      
+            <div className="flex justify-center">
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button type="submit" disabled={isLoading}>
+                  Sign In
+                </Button>
+              )}
+          </div>
           </form>
         </Form>
         <div className="text-center mt-4">
