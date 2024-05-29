@@ -52,7 +52,7 @@ const page = () => {
         setIsCheckingUsername(true)
         setUsernameMessage('')
         try{
-          console.log(debouncedUsername,'value of deb')
+          // console.log(debouncedUsername,'value of deb')
           const response = await axios.get(`/api/check-username-unique?username=${username}`)
           setUsernameMessage(response.data.message);
         }catch(error){
