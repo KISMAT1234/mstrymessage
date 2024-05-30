@@ -11,6 +11,7 @@ const Navbar = () => {
     // console.log(session,'session in navbar')
 
     const user: User = session?.user as User
+    console.log(user,'user in navbar')
 
   return (
     // <div>Navbar</div>
