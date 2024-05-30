@@ -9,25 +9,32 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-separator'
 import { Switch } from "@/components/ui/switch"
 import axios, { AxiosError } from 'axios'
-import { Loader2, RefreshCcw } from 'lucide-react'
+import { Loader2, RefreshCcw,SquarePlus } from 'lucide-react'
 import { User } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import Link from 'next/link'
 
 const page = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const {toast} = useToast()
+  
+  const {data: session} = useSession()
+  // console.log(data,'d')
+  // console.log(session,'session in navbar')
+
+  const user: User = session?.user as User
+  console.log(user,'user in navbar')
 
   // // to delete messages
   const handleDeleteMessage = (messageId: string) => {
        setMessages(messages.filter((message)=> message._id !== messageId))
   } 
 
-  const {data: session} = useSession();
-  // console.log(session,'data session')
+
 
   const form = useForm({ // useForm hook from react-hook-form creates a form object named form.
     resolver: zodResolver(AcceptMessageSchema) // zodResolver function (likely from @hookform/resolvers/zod) integrates form validation with Zod library
@@ -140,7 +147,12 @@ const page = () => {
   return (
     <>
       <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-        <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+        <div className="flex justify-between">
+          <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+          <Link href={`/u/${user?.username}`}>
+           <Button variant="ghost" className="text-2xl bg-gray-900 text-stone-100 ">Create <SquarePlus /></Button>
+          </Link>
+        </div>
 
           {/* <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{' '}
