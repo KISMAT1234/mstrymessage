@@ -149,7 +149,7 @@ const page = () => {
       <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
-          <Link href={`/u/${user?.username}`}>
+          <Link href={`/${user?.username}`}>
            <Button variant="ghost" className="text-2xl bg-gray-900 text-stone-100 ">Create <SquarePlus /></Button>
           </Link>
         </div>
