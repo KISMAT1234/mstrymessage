@@ -46,6 +46,7 @@ export default function SendMessage() {
           username,
         });
   
+        // console.log(response.data,'response message')
         toast({
           title: response.data.message,
           variant: 'default',
@@ -76,7 +77,7 @@ export default function SendMessage() {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Send Anonymous Message to @</FormLabel>
+                <FormLabel>Send Anonymous Message to @{username}</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Write your anonymous message here"
