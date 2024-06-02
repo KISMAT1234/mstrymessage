@@ -26,12 +26,30 @@ import { messageSchema } from '@/schemas/messageSchema';
 
 
 export default function SendMessage() {
+
+  const params = useParams<{ username: string }>();
+  // console.log(params,'params')
+  // console.log(params.username)
+  const username = params.username
+
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
   });
 
-  const onSubmit = () => {
+  const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+    console.log(data,'submit data')
+      try {
 
+      }
+     catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: 'Error',
+        description:
+          axiosError.response?.data.message ?? 'Failed to sent message',
+        variant: 'destructive',
+      });
+    }
   }
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -58,6 +76,7 @@ export default function SendMessage() {
               </FormItem>
             )}
           />
+          <Button type="submit" >Send</Button>
         </form>
       </Form>
     </div>
