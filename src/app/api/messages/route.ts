@@ -93,7 +93,7 @@ export async function POST(request: Request){
           return Response.json(
               { 
                 success: true, 
-                messages: "User does not accept messages"
+                message: "User does not accept messages"
               },
               { status: 403 }
           );
@@ -107,7 +107,7 @@ export async function POST(request: Request){
         return Response.json(
             { 
               success: true, 
-              messages: "Message added successfully"
+              message: "Message added successfully"
             },
             { status: 200 }
         );
