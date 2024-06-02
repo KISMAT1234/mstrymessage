@@ -26,6 +26,7 @@ import { messageSchema } from '@/schemas/messageSchema';
 
 
 export default function SendMessage() {
+  const [isLoading, setIsLoading] = useState(false);
 
   const params = useParams<{ username: string }>();
   // console.log(params,'params')
@@ -37,9 +38,10 @@ export default function SendMessage() {
   });
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+    setIsLoading(true);
     console.log(data,'submit data')
       try {
-        const response = await axios.post<ApiResponse>('/api/send-message', {
+        const response = await axios.post<ApiResponse>('/api/messages', {
           ...data,
           username,
         });
@@ -57,6 +59,8 @@ export default function SendMessage() {
           axiosError.response?.data.message ?? 'Failed to sent message',
         variant: 'destructive',
       });
+    }finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -84,7 +88,18 @@ export default function SendMessage() {
               </FormItem>
             )}
           />
-          <Button type="submit" >Send</Button>
+          <div>
+            {
+              isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                  <h1>Please wait </h1>
+                </Button>
+              ) : (
+                <Button disabled={isLoading}>Send It</Button>
+              )
+            }
+          </div>
         </form>
       </Form>
     </div>
