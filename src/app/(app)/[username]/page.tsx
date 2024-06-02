@@ -39,8 +39,16 @@ export default function SendMessage() {
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     console.log(data,'submit data')
       try {
-
-      }
+        const response = await axios.post<ApiResponse>('/api/send-message', {
+          ...data,
+          username,
+        });
+  
+        toast({
+          title: response.data.message,
+          variant: 'default',
+        });
+     }
      catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
