@@ -1,13 +1,19 @@
-"use client"
+'use client'
+import { useRef } from 'react'
+import { Provider } from 'react-redux'
+import { makeStore, AppStore } from '../lib/store'
 
-import { store } from "@/store/store"
-import React,{ReactNode} from "react"
-import { Provider } from "react-redux"
-
-interface StoreProviderProps {  //The interface specifies that the StoreProvider component will receive a single prop called children, which can be any valid React node (e.g., elements, components, strings, etc.).
-    children: React.ReactNode;
+export default function StoreProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const storeRef = useRef<AppStore>()
+  if (!storeRef.current) {
+    // Create the store instance the first time this renders
+    storeRef.current = makeStore()
   }
-  export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {  //It automatically includes children in the component's props type and provides type checking and autocomplete support for functional components.
-    return <Provider store={store}>{children}</Provider>;
-  };
+
+  return <Provider store={storeRef.current}>{children}</Provider>
+}
 
