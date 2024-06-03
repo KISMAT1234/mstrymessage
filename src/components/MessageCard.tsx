@@ -27,6 +27,8 @@ import axios from 'axios'
 import { ApiResponse } from '@/types/ApiResponse'
 import { Message } from '@/model/User'
 import dayjs from 'dayjs'
+import { Star } from 'lucide-react';
+
   
 
 type MessageCardProps = {
@@ -75,8 +77,13 @@ export const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="text-sm">
-          {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
+        <div className="flex justify-between">
+          <div className="text-sm">
+            {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
+          </div>
+          <button className="text-sm">
+             <Star color="gray-900" fill="gray-900" size={45}/>
+          </button>
         </div>
       </CardHeader>
       <CardContent></CardContent>
