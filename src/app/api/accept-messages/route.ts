@@ -31,6 +31,7 @@ export async function POST(request: Request){  // Accepting messages
            {isAcceptingMessages: acceptMessages},
            {new: true}
         )
+        console.log(updatedUser,'updated user')
         
         if(!updatedUser){
             return Response.json(
