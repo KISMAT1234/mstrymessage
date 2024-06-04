@@ -48,8 +48,7 @@ export const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
 
   return (
      <>
-      <Card className="card-bordered">
-      <CardHeader>
+      <Card className="card-bordered h-[40vh] px-5 py-5">
         <div className="flex justify-between items-center">
           <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
@@ -77,7 +76,7 @@ export const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-10">
           <div className="text-sm">
             {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
           </div>
@@ -85,7 +84,6 @@ export const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
              <Star color="gray-900" fill="gray-900" size={45}/>
           </button>
         </div>
-      </CardHeader>
       <CardContent></CardContent>
     </Card>
       
