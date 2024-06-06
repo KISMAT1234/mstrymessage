@@ -1,6 +1,6 @@
 import mongoose, {Schema, Document} from "mongoose";
 
-export interface Message extends Document {
+export interface Message extends Document {  //ensures that the interfaces inherit Mongoose's document methods and properties. This allows instances of these interfaces to use Mongoose's built-in methods such as save(), remove(), and others, which are essential for interacting with the database
     content: string;
     createdAt:Date
 }
