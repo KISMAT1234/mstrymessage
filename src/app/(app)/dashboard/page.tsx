@@ -16,7 +16,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 
-const page = () => {
+
+
+export const page = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -178,19 +180,42 @@ const page = () => {
             Accept Messages: {acceptMessages ? 'On' : 'Off'}
           </span>
         </div>
-      <Separator />
-      <Button className="mt-4" variant="outline"
+        <Separator />
+        <Button className="mt-4" variant="outline"
           onClick={(e) => {
             e.preventDefault();
             fetchMessages(true);
           }}
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <RefreshCcw className="h-4 w-4" />
-        )}
-      </Button>
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCcw className="h-4 w-4" />
+          )}
+        </Button>  <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (
@@ -214,6 +239,7 @@ const page = () => {
 }
 
 export default page
+
 
 
 
