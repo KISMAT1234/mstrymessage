@@ -8,6 +8,7 @@ import { ApiResponse } from '@/types/ApiResponse'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-separator'
 import { Switch } from "@/components/ui/switch"
+import { Skeleton } from "@/components/ui/skeleton"
 import axios, { AxiosError } from 'axios'
 import { Loader2, RefreshCcw,SquarePlus } from 'lucide-react'
 import { User } from 'next-auth'
@@ -21,6 +22,7 @@ import Link from 'next/link'
 export const page = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [messageLoading, setMessageLoading] = useState(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const {toast} = useToast()
   
@@ -73,7 +75,8 @@ export const page = () => {
     try{
      const response =  await axios.get<ApiResponse>('/api/messages')
      setMessages(response.data.messages || [])
-     console.log(response,'response of fetchMessages')
+     setMessageLoading(true)
+    //  console.log(response,'response of fetchMessages')
      if(refresh){ //Optionally displays a toast notification if refresh is true.
       toast({
         title:"Refresh Messages",
@@ -148,7 +151,7 @@ export const page = () => {
 
   return (
     <>
-      <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+      <div className="my-2 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
           <Link href={`/send/${user?.username}`}>
@@ -192,45 +195,33 @@ export const page = () => {
           ) : (
             <RefreshCcw className="h-4 w-4" />
           )}
-        </Button>  <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        </Button>  
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {messages.length > 0 ? (
-            messages.map((message, index) => (
-              <div>
-                <MessageCard
-                key={message._id}
-                message={message}
-                onMessageDelete={handleDeleteMessage}
-                />
-              
+          {
+            messageLoading ? (
+              messages.length > 0 ? (
+                messages.map((message, index) => (
+                  <div>
+                    <MessageCard
+                    key={message._id}
+                    message={message}
+                    onMessageDelete={handleDeleteMessage}
+                    />
+                  
+                  </div>
+                ))
+              )  : (
+              <p>No messages to display.</p>
+              )
+            ) : (
+              <div className="flex jusitfy-center flex-col space-y-3">
+                <Skeleton className="h-[200px] w-[500px]  bg-gradient-to-r from-red-600 to-purple-700 rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px] bg-gradient-to-r from-red-600 to-purple-700" />
+                  <Skeleton className="h-4 w-[200px] bg-gradient-to-r from-red-600 to-purple-700" />
               </div>
-            ))
-          ) : (
-            <p>No messages to display.</p>
+    </div>
           )}
         </div>
       </div>
@@ -239,6 +230,9 @@ export const page = () => {
 }
 
 export default page
+
+
+
 
 
 
