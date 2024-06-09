@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import {User} from 'next-auth'
 import { Button } from './ui/button'
+import { Facebook } from 'lucide-react';
 
 import { cn } from "@/lib/utils"
 // import { Icons } from "@/components/icons"
@@ -65,74 +66,81 @@ const Navbar = () => {
 
   return (
     // <div>Navbar</div>
-    <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
+    <nav className="p-2 md:p-3 shadow-md bg-gray-900 text-white">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <a href="#" className="text-xl font-bold mb-4 md:mb-0">Mystry message</a>
-            <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger  className="bg-gray-900">
-            <a href="/dashboard">Home</a>
-          </NavigationMenuTrigger>
-        </NavigationMenuItem>
+            <div>
+            <div className="text-center">
 
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/messages/latest-messages" title="Latest-Messages">
-              </ListItem>
-              <ListItem href="/docs/installation" title="Highest-Like-Messages">
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Funny_Messages">
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/docs" title="Introduction">
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <ListItem href="/docs" title="Introduction">
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
             {
                 session ? (
                     <>
                       <span className="mr-4">Welcome, {user?.username || user.email}</span>
-                      <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
                     </>
-                ) : (
-                    <>
-                      <Link href='/sign-in'>
-                        <Button className="w-full md:w-auto bg-slate-100 text-black">Login</Button>
-                      </Link>
-                    </>
+                ) 
+                : (
+                  <>
+                   <h1>Not loggedin</h1>
+                  </>
                 )
             }
+            </div>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger  className="bg-gray-900">
+                    <a href="/dashboard">Home</a>
+                  </NavigationMenuTrigger>
+                </NavigationMenuItem>
+        
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                      <ListItem href="/messages/latest-messages" title="Latest-Messages">
+                      </ListItem>
+                      <ListItem href="/docs/installation" title="Highest-Like-Messages">
+                      </ListItem>
+                      <ListItem href="/docs/primitives/typography" title="Funny_Messages">
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+        
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                      <ListItem href="/docs" title="Introduction">
+                      </ListItem>
+                      <ListItem href="/docs/installation" title="Installation">
+                      </ListItem>
+                      <ListItem href="/docs/primitives/typography" title="Typography">
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                      <ListItem href="/docs" title="Introduction">
+                      </ListItem>
+                      <ListItem href="/docs/installation" title="Installation">
+                      </ListItem>
+                      <ListItem href="/docs/primitives/typography" title="Typography">
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+            </div>    
+            <div className="flex">
+              <Facebook className="w-full  md:w-auto bg-slate-100 text-black rounded"/> 
+              <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
+            </div>
         </div>
     </nav>
 
