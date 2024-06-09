@@ -80,111 +80,114 @@ const Navbar = () => {
     // <div>Navbar</div>
     <nav className="p-2 md:p-3 shadow-md bg-gray-900 text-white">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <a href="#" className="text-xl font-bold mb-4 md:mb-0">Mystry message</a>
             <div>
-            <div className="text-center">
-
-            {
-                session ? (
+              <div className="text-center">
+  
+              {
+                  session ? (
+                      <>
+                        <span className="mr-4">Welcome, {user?.username || user.email}</span>
+                      </>
+                  ) 
+                  : (
                     <>
-                      <span className="mr-4">Welcome, {user?.username || user.email}</span>
+                     <h1>Not loggedin</h1>
                     </>
-                ) 
-                : (
-                  <>
-                   <h1>Not loggedin</h1>
-                  </>
-                )
-            }
-            </div>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger  className="bg-gray-900">
-                    <a href="/dashboard">Home</a>
-                  </NavigationMenuTrigger>
-                </NavigationMenuItem>
-        
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <ListItem href="/messages/latest-messages" title="Latest-Messages">
-                      </ListItem>
-                      <ListItem href="/docs/installation" title="Highest-Like-Messages">
-                      </ListItem>
-                      <ListItem href="/docs/primitives/typography" title="Funny_Messages">
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-        
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <ListItem href="/docs" title="Introduction">
-                      </ListItem>
-                      <ListItem href="/docs/installation" title="Installation">
-                      </ListItem>
-                      <ListItem href="/docs/primitives/typography" title="Typography">
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <ListItem href="/docs" title="Introduction">
-                      </ListItem>
-                      <ListItem href="/docs/installation" title="Installation">
-                      </ListItem>
-                      <ListItem href="/docs/primitives/typography" title="Typography">
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                  )
+              }
+              </div>
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger  className="bg-gray-900">
+                      <a href="/dashboard">Home</a>
+                    </NavigationMenuTrigger>
+                  </NavigationMenuItem>
+          
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                        <ListItem href="/messages/latest-messages" title="Latest-Messages">
+                        </ListItem>
+                        <ListItem href="/docs/installation" title="Highest-Like-Messages">
+                        </ListItem>
+                        <ListItem href="/docs/primitives/typography" title="Funny_Messages">
+                        </ListItem>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+          
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                        <ListItem href="/docs" title="Introduction">
+                        </ListItem>
+                        <ListItem href="/docs/installation" title="Installation">
+                        </ListItem>
+                        <ListItem href="/docs/primitives/typography" title="Typography">
+                        </ListItem>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                  
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                        <ListItem href="/docs" title="Introduction">
+                        </ListItem>
+                        <ListItem href="/docs/installation" title="Installation">
+                        </ListItem>
+                        <ListItem href="/docs/primitives/typography" title="Typography">
+                        </ListItem>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>    
-            <div className="flex">
-              <Facebook className="w-full  md:w-auto bg-slate-100 text-black rounded"/> 
-              <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
+        
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline">Open</Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Edit profile</SheetTitle>
+                    <SheetDescription>
+                      Make changes to your profile here. Click save when you're done.
+                    </SheetDescription>
+                  </SheetHeader>
+                   <a href="#" className="text-xl font-bold mb-4 md:mb-0">Mystry message</a>
+                  <div className="flex ">
+                    <Facebook className="w-full  md:w-auto bg-slate-100 text-black rounded"/> 
+                    <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
+                  </div>
+                  {/* <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        Name
+                      </Label>
+                      <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="username" className="text-right">
+                        Username
+                      </Label>
+                      <Input id="username" value="@peduarte" className="col-span-3" />
+                    </div>
+                  </div> */}
+                  {/* <SheetFooter>
+                    <SheetClose asChild>
+                      <Button type="submit">Save changes</Button>
+                    </SheetClose>
+                  </SheetFooter> */}
+                </SheetContent>
+              </Sheet>
             </div>
-            <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader>
-        {/* <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div> */}
-        {/* <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter> */}
-      </SheetContent>
-    </Sheet>
         </div>
     </nav>
 
