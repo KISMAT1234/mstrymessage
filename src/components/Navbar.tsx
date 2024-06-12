@@ -5,6 +5,8 @@ import { useSession, signOut } from 'next-auth/react'
 import {User} from 'next-auth'
 import { Button } from './ui/button'
 import { Facebook } from 'lucide-react';
+import { Instagram } from 'lucide-react';
+import { Youtube } from 'lucide-react';
 import { Input } from "@/components/ui/input"
 import  { useState } from 'react';
 import { AlignJustify } from 'lucide-react';
@@ -62,93 +64,96 @@ const Navbar = () => {
           </button>
         </div>
         <div className="my-5">
-           <Input type="email" placeholder="Email" className=""/>
+           <Input type="email" placeholder="Search messages here..." className=""/>
         </div>
-            <Facebook className="h-[5vh] w-[5vh]  md:w-auto bg-slate-100 text-black rounded"/> 
+        <div className="flex ">
+          <Youtube className="h-[10vh] w-[10vh] mx-2 md:w-auto bg-slate-100 text-black rounded"/>
+          <Instagram className="h-[10vh] w-[10vh] mx-2 md:w-auto bg-slate-100 text-black rounded"/>
+          <Facebook className="h-[10vh] w-[10vh] mx-2 md:w-auto bg-slate-100 text-black rounded"/> 
+        </div>
         <div className="flex md:absolute my-5">
             <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
         </div>
       </div>
     )}
-    <nav className="p-2 md:p-3 shadow-md bg-gray-900 text-white">
-        
-              <div  className="md:hidden">
-                <button onClick ={toggleSidebar}>
-                   <AlignJustify className="text-4xl"/>
-                </button>
-              </div>
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div>
-              <div className="text-center">
-                {
-                    session ? (
-                        <>
-                          <span className="mr-4">Welcome, {user?.username || user.email}</span>
-                        </>
-                    ) 
-                    : (
-                      <>
-                       <h1>Not loggedin</h1>
-                      </>
-                    )
-                }
-              </div>
-             <div>
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger  className="bg-gray-900">
-                        <a href="/dashboard">Home</a>
-                      </NavigationMenuTrigger>
-                    </NavigationMenuItem>
-            
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                          <ListItem href="/messages/latest-messages" title="Latest-Messages">
-                          </ListItem>
-                          <ListItem href="/docs/installation" title="Highest-Like-Messages">
-                          </ListItem>
-                          <ListItem href="/docs/primitives/typography" title="Funny_Messages">
-                          </ListItem>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-            
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                          <ListItem href="/docs" title="Introduction">
-                          </ListItem>
-                          <ListItem href="/docs/installation" title="Installation">
-                          </ListItem>
-                          <ListItem href="/docs/primitives/typography" title="Typography">
-                          </ListItem>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                          <ListItem href="/docs" title="Introduction">
-                          </ListItem>
-                          <ListItem href="/docs/installation" title="Installation">
-                          </ListItem>
-                          <ListItem href="/docs/primitives/typography" title="Typography">
-                          </ListItem>
-                        </ul>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </div>
-            </div>    
+    <nav className="px-4 py-2 md:p-3 shadow-md bg-gray-900 text-white flex md:block">
+      {/* <div className="md:hidden"> */}
+        <button onClick={toggleSidebar} className="md:hidden">
+           <AlignJustify className="text-4xl"/>
+        </button>
+      {/* </div> */}
+      <div className="container flex flex-col md:flex-row justify-between items-center">
+        <div className="text-center">
+          {
+              session ? (
+                  <>
+                    <span className="mr-4">Welcome, {user?.username || user.email}</span>
+                  </>
+              ) 
+              : (
+                <>
+                 <h1>Not loggedin</h1>
+                </>
+              )
+          }
+        </div>
+        <div>
+           <NavigationMenu>
+             <NavigationMenuList>
+               <NavigationMenuItem>
+                 <NavigationMenuTrigger  className="bg-gray-900">
+                   <a href="/dashboard">Home</a>
+                 </NavigationMenuTrigger>
+               </NavigationMenuItem>
+      
+               <NavigationMenuItem>
+                 <NavigationMenuTrigger className="bg-gray-900">Messages</NavigationMenuTrigger>
+                 <NavigationMenuContent>
+                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                     <ListItem href="/messages/latest-messages" title="Latest-Messages">
+                     </ListItem>
+                     <ListItem href="/docs/installation" title="Highest-Like-Messages">
+                     </ListItem>
+                     <ListItem href="/docs/primitives/typography" title="Funny_Messages">
+                     </ListItem>
+                   </ul>
+                 </NavigationMenuContent>
+               </NavigationMenuItem>
+      
+               <NavigationMenuItem>
+                 <NavigationMenuTrigger className="bg-gray-900">Blog</NavigationMenuTrigger>
+                 <NavigationMenuContent>
+                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                     <ListItem href="/docs" title="Introduction">
+                     </ListItem>
+                     <ListItem href="/docs/installation" title="Installation">
+                     </ListItem>
+                     <ListItem href="/docs/primitives/typography" title="Typography">
+                     </ListItem>
+                   </ul>
+                 </NavigationMenuContent>
+               </NavigationMenuItem>
+               
+               <NavigationMenuItem>
+                 <NavigationMenuTrigger className="bg-gray-900">Contact</NavigationMenuTrigger>
+                 <NavigationMenuContent>
+                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                     <ListItem href="/docs" title="Introduction">
+                     </ListItem>
+                     <ListItem href="/docs/installation" title="Installation">
+                     </ListItem>
+                     <ListItem href="/docs/primitives/typography" title="Typography">
+                     </ListItem>
+                   </ul>
+                 </NavigationMenuContent>
+               </NavigationMenuItem>
+             </NavigationMenuList>
+           </NavigationMenu>
+         </div>
+         <div>
+            <Input type="email" placeholder="Search messages here..." className="hidden w-[60%] md:block"/>
+         </div>
 
-            <Input type="email" placeholder="Email" className="hidden md:block"/>
                
 
         </div>
