@@ -7,6 +7,8 @@ import { Button } from './ui/button'
 import { Facebook } from 'lucide-react';
 import { Input } from "@/components/ui/input"
 import  { useState } from 'react';
+import { AlignJustify } from 'lucide-react';
+import { X } from 'lucide-react';
 
 
 import { cn } from "@/lib/utils"
@@ -52,14 +54,18 @@ const Navbar = () => {
   return (
     <>
     {isOpen && (
-      <div className="h-[40vh] w-[40%] bg-red-600 z-50  md:block absolute">
-        <button onClick={toggleSidebar}>
-         <h1 >X</h1>
-        </button>
-        <a href="#" className="text-xl font-bold mb-4 md:absolute md:block  md:mb-0">Mystry message</a>
-        <h1>Sidebar</h1>
-        <div className="flex md:absolute">
-            <Facebook className="w-full  md:w-auto bg-slate-100 text-black rounded"/> 
+      <div className="h-[100vh] px-5 py-5 w-[60%] bg-red-600 z-50   md:block absolute transform transition-transform duration-300 ease-in-out ">
+        <div className="flex justify-between">
+          <a href="#" className="text-xl font-bold md:absolute md:block ">Mystry message</a>
+          <button onClick={toggleSidebar}>
+            <X className="text-4xl"/>
+          </button>
+        </div>
+        <div className="my-5">
+           <Input type="email" placeholder="Email" className=""/>
+        </div>
+            <Facebook className="h-[5vh] w-[5vh]  md:w-auto bg-slate-100 text-black rounded"/> 
+        <div className="flex md:absolute my-5">
             <Button onClick={()=> signOut()}  className="w-full md:w-auto bg-slate-100 text-black">Logout</Button>
         </div>
       </div>
@@ -67,7 +73,9 @@ const Navbar = () => {
     <nav className="p-2 md:p-3 shadow-md bg-gray-900 text-white">
         
               <div  className="md:hidden">
-                <button onClick ={toggleSidebar}>==</button>
+                <button onClick ={toggleSidebar}>
+                   <AlignJustify className="text-4xl"/>
+                </button>
               </div>
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <div>
@@ -140,7 +148,7 @@ const Navbar = () => {
               </div>
             </div>    
 
-            <Input type="email" placeholder="Email" />
+            <Input type="email" placeholder="Email" className="hidden md:block"/>
                
 
         </div>
