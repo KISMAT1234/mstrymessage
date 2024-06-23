@@ -1,3 +1,4 @@
+import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -48,7 +49,11 @@ export const authOptions: NextAuthOptions = {
                 }
 
               }
-        })
+        }),
+        GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+        }),
     ],
     callbacks:{
       async jwt({ token, user}) {  // jwt callback modifies the JSON Web Token (JWT) to include user-specific data like user ID, verification status, messaging preferences, and username.
