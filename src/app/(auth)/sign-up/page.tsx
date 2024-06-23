@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import {GoogleSignInButton} from "@/components/authButton"
 
 
 const page = () => {
@@ -181,6 +182,8 @@ const page = () => {
             </Button>
           </form>
         </Form>
+        <h1>OR</h1>
+        <GoogleSignInButton/>
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
