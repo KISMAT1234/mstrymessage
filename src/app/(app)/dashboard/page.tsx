@@ -54,7 +54,7 @@ export const page = () => {
   const fetchAcceptMessage = useCallback(async () => { //useCallback is a React Hook that allows you to memoize a function. It returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
     setIsSwitchLoading(true)
     try{
-      const response = await axios.get('/api/accept-messages')
+      const response = await axios.get<ApiResponse>('/api/accept-messages')
       setValue('acceptMessages', response.data.isAcceptingMessage)
     }catch(error){
       const axiosError = error as AxiosError<ApiResponse>;
