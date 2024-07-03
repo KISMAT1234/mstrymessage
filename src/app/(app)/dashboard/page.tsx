@@ -217,11 +217,8 @@ export const page = () => {
             ) : (
               <div className="flex jusitfy-center flex-col space-y-3">
                 <Skeleton className="h-[200px] w-[500px]  bg-gradient-to-r from-red-600 to-purple-700 rounded-xl" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[250px] bg-gradient-to-r from-red-600 to-purple-700" />
-                  <Skeleton className="h-4 w-[200px] bg-gradient-to-r from-red-600 to-purple-700" />
+                <Skeleton className="h-[200px] w-[500px]  bg-gradient-to-r from-red-600 to-purple-700 rounded-xl" /> 
               </div>
-    </div>
           )}
         </div>
       </div>
