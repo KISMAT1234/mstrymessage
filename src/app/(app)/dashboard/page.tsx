@@ -215,7 +215,7 @@ export const page = () => {
               <p>No messages to display.</p>
               )
             ) : (
-              <div className="flex jusitfy-center flex-col space-y-3">
+              <div className="space-y-3">
                 <Skeleton className="h-[200px] w-[500px]  bg-gradient-to-r from-red-600 to-purple-700 rounded-xl" />
                 <Skeleton className="h-[200px] w-[500px]  bg-gradient-to-r from-red-600 to-purple-700 rounded-xl" /> 
               </div>
