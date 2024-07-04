@@ -67,11 +67,11 @@ export  async function POST(req: Request) {
       await newUser.save();
     }
 
-    // const emailResponse = await sendVerificationEmail(email, username, verifyCode);
+    const emailResponse = await sendVerificationEmail(email, username, verifyCode);
 
-    // if (!emailResponse.success) {
-    //   return Response.json({ success: false, message: emailResponse.message },{status:500});
-    // }
+    if (!emailResponse.success) {
+      return Response.json({ success: false, message: emailResponse.message },{status:500});
+    }
 
     return Response.json(
       {
